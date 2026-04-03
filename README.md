@@ -146,6 +146,26 @@ finance-backend/
 }
 ```
 
+## 🧠 Technical Decisions & Tradeoffs
+
+In building this application, several architectural and design choices were made to balance speed of development, maintainability, and performance:
+
+1. **MongoDB over SQL (PostgreSQL/MySQL)**
+   - **Decision:** Chose MongoDB (NoSQL) alongside Mongoose for data persistence.
+   - **Tradeoff:** While a relational database is often strictly preferred for pure financial transactional data (due to ACID compliance and strict tabular schemas), MongoDB allowed for rapid iteration and a highly flexible schema for this assignment. Mongoose schemas were heavily utilized to enforce strict data validation, mitigating the risks of schema-less document storage.
+
+2. **Stateless JWT Authentication vs. Session Cookies**
+   - **Decision:** Implemented JSON Web Tokens (JWT) passed via the `Authorization` header rather than server-side sessions.
+   - **Tradeoff:** JWTs allow the backend to remain completely stateless, making it easier to scale horizontally and decoupling the API from the client (useful for mobile apps or third-party integrations). The tradeoff is that immediate token revocation (logout) is difficult without implementing a token blacklist in a key-value store like Redis.
+
+3. **Database-Level Aggregation vs. Server-Side Calculation**
+   - **Decision:** The `/api/summary` dashboard endpoint uses MongoDB Aggregation Pipelines to calculate net balances and category groupings.
+   - **Tradeoff:** Fetching all records and using JavaScript array methods (`.reduce()`, `.filter()`) in Node.js would have been easier to read. However, delegating the math to the database via aggregation is significantly more performant, reduces memory consumption on the Node.js server, and minimizes data transferred over the wire.
+
+4. **Hard Deletes vs. Soft Deletes**
+   - **Decision:** Implemented hard deletes (permanently dropping the document) for the `DELETE /api/records/:id` route.
+   - **Tradeoff:** Hard deletes keep the database clean and were simpler for the scope of this assignment. In a true production financial system, a "soft delete" approach (e.g., adding an `isDeleted: boolean` flag) would be mandatory to preserve audit trails and historical integrity.
+
 ## 🌐 Environment & Setup
 
 ### Local Development
