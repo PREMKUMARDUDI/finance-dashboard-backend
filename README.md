@@ -30,9 +30,9 @@ A comprehensive, scalable backend system built with Node.js and Express to manag
 
 ```text
 ┌─────────────────┐       HTTP/REST API      ┌─────────────────┐
-│                 │  ◄──────────────────►    │   Express.js    │
-│   Any Client    │        (JSON)            │    Backend      │
-│ (Postman/App)   │                          │   (Node.js)     │
+│   Any Client    │  ◄──────────────────►    │   Express.js    │
+│  (Postman/App)  │        (JSON)            │    Backend      │
+│                 │                          │   (Node.js)     │
 └─────────────────┘                          └─────────────────┘
                                                       │
                                                       │
@@ -62,9 +62,6 @@ finance-backend/
 │   │   ├── authController.js         # Authentication & registration
 │   │   ├── recordController.js       # Financial records CRUD
 │   │   └── summaryController.js      # Dashboard aggregation logic
-│   ├── data/                         # Mock data for seeding
-│   │   ├── records.js                # Sample transactions
-│   │   └── users.js                  # Sample RBAC accounts
 │   ├── middleware/                   # Express middlewares
 │   │   ├── authMiddleware.js         # JWT verification
 │   │   ├── errorMiddleware.js        # Global error interceptor
@@ -76,7 +73,6 @@ finance-backend/
 │   │   ├── authRoutes.js             # /api/auth endpoints
 │   │   ├── recordRoutes.js           # /api/records endpoints
 │   │   └── summaryRoutes.js          # /api/summary endpoints
-│   ├── seeder.js                     # Database import/destroy script
 │   └── server.js                     # Application entry point
 ├── .env                              # Environment variables (git-ignored)
 └── package.json                      # Dependencies and NPM scripts
@@ -157,7 +153,7 @@ finance-backend/
 1. **Clone the repository**
 
    ```bash
-   git clone [https://github.com/PREMKUMARDUDI/finance-dashboard-backend.git](https://github.com/PREMKUMARDUDI/finance-dashboard-backend.git)
+   git clone https://github.com/PREMKUMARDUDI/finance-dashboard-backend.git
    cd finance-dashboard-backend
    ```
 
@@ -177,14 +173,7 @@ finance-backend/
    NODE_ENV=development
    ```
 
-4. **Seed the Database (Optional)**
-   Populate the database with test data:
-
-   ```bash
-   npm run data:import
-   ```
-
-5. **Start the Server**
+4. **Start the Server**
    ```bash
    npm run dev
    ```
